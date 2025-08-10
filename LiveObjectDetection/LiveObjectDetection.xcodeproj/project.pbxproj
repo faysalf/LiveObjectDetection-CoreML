@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		71908AB92E4843E30034E5BB /* CustomCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71908AB82E4843E30034E5BB /* CustomCameraView.swift */; };
+		71908ABD2E4844980034E5BB /* CustomCameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71908ABC2E4844980034E5BB /* CustomCameraViewController.swift */; };
+		71908AC12E484DE60034E5BB /* CustomCameraViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71908AC02E484DE60034E5BB /* CustomCameraViewController.storyboard */; };
 		7197D28A2E47D68C004E9DC1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7197D2832E47D68C004E9DC1 /* Preview Assets.xcassets */; };
 		7197D28B2E47D68C004E9DC1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7197D2852E47D68C004E9DC1 /* Assets.xcassets */; };
 		7197D28C2E47D68C004E9DC1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7197D2862E47D68C004E9DC1 /* ContentView.swift */; };
@@ -14,6 +17,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		71908AB82E4843E30034E5BB /* CustomCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCameraView.swift; sourceTree = "<group>"; };
+		71908ABC2E4844980034E5BB /* CustomCameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCameraViewController.swift; sourceTree = "<group>"; };
+		71908ABF2E484D250034E5BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		71908AC02E484DE60034E5BB /* CustomCameraViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CustomCameraViewController.storyboard; sourceTree = "<group>"; };
 		7197D2712E47D682004E9DC1 /* LiveObjectDetection.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LiveObjectDetection.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7197D2832E47D68C004E9DC1 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		7197D2852E47D68C004E9DC1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -33,6 +40,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		71908AB62E4843AF0034E5BB /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				71908AB72E4843B80034E5BB /* CustomCamera */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		71908AB72E4843B80034E5BB /* CustomCamera */ = {
+			isa = PBXGroup;
+			children = (
+				71908ABE2E484B940034E5BB /* Camera-UIKit */,
+				71908AB82E4843E30034E5BB /* CustomCameraView.swift */,
+			);
+			path = CustomCamera;
+			sourceTree = "<group>";
+		};
+		71908ABE2E484B940034E5BB /* Camera-UIKit */ = {
+			isa = PBXGroup;
+			children = (
+				71908ABC2E4844980034E5BB /* CustomCameraViewController.swift */,
+				71908AC02E484DE60034E5BB /* CustomCameraViewController.storyboard */,
+			);
+			path = "Camera-UIKit";
+			sourceTree = "<group>";
+		};
 		7197D2682E47D682004E9DC1 = {
 			isa = PBXGroup;
 			children = (
@@ -60,9 +93,11 @@
 		7197D2892E47D68C004E9DC1 /* LiveObjectDetection */ = {
 			isa = PBXGroup;
 			children = (
+				71908ABF2E484D250034E5BB /* Info.plist */,
+				71908AB62E4843AF0034E5BB /* Views */,
+				7197D2862E47D68C004E9DC1 /* ContentView.swift */,
 				7197D2842E47D68C004E9DC1 /* Preview Content */,
 				7197D2852E47D68C004E9DC1 /* Assets.xcassets */,
-				7197D2862E47D68C004E9DC1 /* ContentView.swift */,
 				7197D2872E47D68C004E9DC1 /* LiveObjectDetection.entitlements */,
 				7197D2882E47D68C004E9DC1 /* LiveObjectDetectionApp.swift */,
 			);
@@ -132,6 +167,7 @@
 			files = (
 				7197D28A2E47D68C004E9DC1 /* Preview Assets.xcassets in Resources */,
 				7197D28B2E47D68C004E9DC1 /* Assets.xcassets in Resources */,
+				71908AC12E484DE60034E5BB /* CustomCameraViewController.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -142,7 +178,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71908ABD2E4844980034E5BB /* CustomCameraViewController.swift in Sources */,
 				7197D28C2E47D68C004E9DC1 /* ContentView.swift in Sources */,
+				71908AB92E4843E30034E5BB /* CustomCameraView.swift in Sources */,
 				7197D28D2E47D68C004E9DC1 /* LiveObjectDetectionApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -277,6 +315,8 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LiveObjectDetection/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Please allow access to your camera for detecting live object";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -316,6 +356,8 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LiveObjectDetection/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Please allow access to your camera for detecting live object";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
