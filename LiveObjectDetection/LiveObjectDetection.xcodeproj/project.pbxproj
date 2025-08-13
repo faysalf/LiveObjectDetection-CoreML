@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7117B8642E4CF298004AFA66 /* DetectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7117B8632E4CF298004AFA66 /* DetectionModel.swift */; };
+		7117B8672E4CF367004AFA66 /* YOLOv3Tiny.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 7117B8662E4CF367004AFA66 /* YOLOv3Tiny.mlmodel */; };
 		7155C8422E4BBE0400EDC4B7 /* CustomCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7155C8412E4BBE0400EDC4B7 /* CustomCameraView.swift */; };
 		7166C2ED2E4921090056E6B2 /* LiveObjectDetectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7166C2EC2E4921090056E6B2 /* LiveObjectDetectionView.swift */; };
 		7197D28A2E47D68C004E9DC1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7197D2832E47D68C004E9DC1 /* Preview Assets.xcassets */; };
@@ -16,9 +18,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7117B8632E4CF298004AFA66 /* DetectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetectionModel.swift; sourceTree = "<group>"; };
+		7117B8662E4CF367004AFA66 /* YOLOv3Tiny.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = YOLOv3Tiny.mlmodel; sourceTree = "<group>"; };
 		7155C8412E4BBE0400EDC4B7 /* CustomCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCameraView.swift; sourceTree = "<group>"; };
 		7166C2EC2E4921090056E6B2 /* LiveObjectDetectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveObjectDetectionView.swift; sourceTree = "<group>"; };
-		71908ABF2E484D250034E5BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		71908ABF2E484D250034E5BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7197D2712E47D682004E9DC1 /* LiveObjectDetection.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LiveObjectDetection.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7197D2832E47D68C004E9DC1 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		7197D2852E47D68C004E9DC1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -41,8 +45,18 @@
 		7117B8622E4CF1D3004AFA66 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				7117B8652E4CF34A004AFA66 /* ML */,
+				7117B8632E4CF298004AFA66 /* DetectionModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		7117B8652E4CF34A004AFA66 /* ML */ = {
+			isa = PBXGroup;
+			children = (
+				7117B8662E4CF367004AFA66 /* YOLOv3Tiny.mlmodel */,
+			);
+			path = ML;
 			sourceTree = "<group>";
 		};
 		7155C8402E4BBDF000EDC4B7 /* Camera+UIView */ = {
@@ -97,11 +111,11 @@
 			isa = PBXGroup;
 			children = (
 				7117B8622E4CF1D3004AFA66 /* Model */,
-				71908ABF2E484D250034E5BB /* Info.plist */,
 				71908AB62E4843AF0034E5BB /* Views */,
 				7166C2EC2E4921090056E6B2 /* LiveObjectDetectionView.swift */,
 				7197D2862E47D68C004E9DC1 /* ContentView.swift */,
 				7197D2842E47D68C004E9DC1 /* Preview Content */,
+				71908ABF2E484D250034E5BB /* Info.plist */,
 				7197D2852E47D68C004E9DC1 /* Assets.xcassets */,
 				7197D2872E47D68C004E9DC1 /* LiveObjectDetection.entitlements */,
 				7197D2882E47D68C004E9DC1 /* LiveObjectDetectionApp.swift */,
@@ -183,8 +197,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				7197D28C2E47D68C004E9DC1 /* ContentView.swift in Sources */,
+				7117B8642E4CF298004AFA66 /* DetectionModel.swift in Sources */,
 				7197D28D2E47D68C004E9DC1 /* LiveObjectDetectionApp.swift in Sources */,
 				7155C8422E4BBE0400EDC4B7 /* CustomCameraView.swift in Sources */,
+				7117B8672E4CF367004AFA66 /* YOLOv3Tiny.mlmodel in Sources */,
 				7166C2ED2E4921090056E6B2 /* LiveObjectDetectionView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
