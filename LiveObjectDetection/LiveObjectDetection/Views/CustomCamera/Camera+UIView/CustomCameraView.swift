@@ -10,126 +10,121 @@ import SwiftUI
 import AVFoundation
 
 class CustomCameraUIView: UIView {
+    var capturedPixels: ((CVPixelBuffer)-> Void)?
     private var session: AVCaptureSession!
-    private var photoOutput: AVCapturePhotoOutput!
-    private var timer: Timer?
+    private var videoOutput: AVCaptureVideoDataOutput!
+    private var previewLayer: AVCaptureVideoPreviewLayer!
     
-    override init(frame: CGRect) {
+    override
+    init(frame: CGRect) {
         super.init(frame: frame)
         checkPermissionAndConfigure()
     }
     
-    required init?(coder: NSCoder) {
+    required
+    init?(coder: NSCoder) {
         super.init(coder: coder)
         checkPermissionAndConfigure()
     }
     
+    override
+    func layoutSubviews() {
+        super.layoutSubviews()
+        previewLayer.frame = bounds
+    }
+    
     private func configure() {
         session = AVCaptureSession()
-        session.sessionPreset = .photo
+        session.sessionPreset = .medium
         
         guard let device = AVCaptureDevice.default(for: .video),
-              let input = try? AVCaptureDeviceInput(device: device) else { return }
+              let input = try? AVCaptureDeviceInput(device: device),
+              session.canAddInput(input) else { return }
         
-        if session.canAddInput(input) {
-            session.addInput(input)
+        session.addInput(input)
+        videoOutput = AVCaptureVideoDataOutput()
+        
+        if session.canAddOutput(videoOutput) {
+            videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "videoQueue"))
+            session.addOutput(videoOutput)
         }
         
-        photoOutput = AVCapturePhotoOutput()
-        if session.canAddOutput(photoOutput) {
-            session.addOutput(photoOutput)
-        }
-        
-        let previewLayer = AVCaptureVideoPreviewLayer(session: session)
+        previewLayer = AVCaptureVideoPreviewLayer(session: session)
         previewLayer.videoGravity = .resizeAspectFill
-        previewLayer.frame = self.bounds
-        self.layer.addSublayer(previewLayer)
-        self.startSession()
+        layer.addSublayer(previewLayer)
+        
     }
     
 }
 
-// Photo output delegate
-extension CustomCameraUIView: AVCapturePhotoCaptureDelegate {
-    func photoOutput(_ output: AVCapturePhotoOutput,
-                     didFinishProcessingPhoto photo: AVCapturePhoto,
-                     error: Error?) {
-        if let error = error {
-            debugPrint("Error capturing photo: \(error)")
+// MARK: - Photo Output Delegate
+extension CustomCameraUIView: AVCaptureVideoDataOutputSampleBufferDelegate {
+    
+    func captureOutput(
+        _ output: AVCaptureOutput,
+        didOutput sampleBuffer: CMSampleBuffer,
+        from connection: AVCaptureConnection
+    ) {
+        guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
             return
         }
         
-        guard let imageData = photo.fileDataRepresentation(),
-              let image = UIImage(data: imageData) else { return }
-        
-        debugPrint("Photo captured at \(Date())")
+        DispatchQueue.global().async {
+            debugPrint("Pixel gets at \(Date())")
+            self.capturedPixels?(pixelBuffer)
+        }
         
     }
     
 }
 
-// Methods
+// MARK: - Methods
 extension CustomCameraUIView {
+    
     func startSession() {
-        guard !session.isRunning else { return }
-        DispatchQueue.global(qos: .userInitiated).async {[weak self] in
-            self?.session.startRunning()
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.session.startRunning()
         }
-        startTimer()
     }
     
     func stopSession() {
-        stopTimer()
-        if session.isRunning {
-            session.stopRunning()
-        }
-    }
-    
-    private func startTimer() {
-        timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
-            self?.capturePhoto()
-        }
-    }
-    
-    private func stopTimer() {
-        timer?.invalidate()
-        timer = nil
-    }
-    
-    private func capturePhoto() {
-        let settings = AVCapturePhotoSettings()
-        photoOutput.capturePhoto(with: settings, delegate: self)
+        session.stopRunning()
     }
     
     private func checkPermissionAndConfigure() {
         switch AVCaptureDevice.authorizationStatus(for: .video) {
         case .authorized:
             configure()
-            startSession()
             
         case .notDetermined:
             AVCaptureDevice.requestAccess(for: .video) { [weak self] isGranted in
                 if isGranted {
                     DispatchQueue.main.async {
                         self?.configure()
-                        self?.startSession()
                     }
                 }
             }
         default:
-            print("Camera access denied")
+            debugPrint("Camera access denied")
         }
+        
     }
     
 }
 
-// View Representable
+
+// MARK: - Camera View Representable
 struct CustomCameraPreview: UIViewRepresentable {
-    func makeUIView(context: Context) -> UIView {
-        let camView = CustomCameraUIView()
+    var cameraView: CustomCameraUIView
+    var capturedPixels: ((CVPixelBuffer)-> Void)?
+
+    func makeUIView(context: Context) -> CustomCameraUIView {
+        cameraView.capturedPixels = capturedPixels
         
-        return camView
+        return cameraView
     }
     
-    func updateUIView(_ uiView: UIView, context: Context) {}
+    func updateUIView(_ uiView: CustomCameraUIView, context: Context) {}
+    
 }
+

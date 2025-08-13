@@ -13,31 +13,17 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            if let img = capturedImage {
-                Image(uiImage: img)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 300)
-            } else {
-                Rectangle()
-                    .fill(Color.gray.opacity(0.2))
-                    .frame(height: 300)
-                    .overlay(Text("No photo yet"))
-            }
-            
-            Button("Open Camera") {
-                presentDetectionView = true
-            }
-            .buttonStyle(.bordered)
-            
-            NavigationLink(isActive: $presentDetectionView) {
+            NavigationLink {
                 LiveObjectDetectionView()
                 
             } label: {
-                EmptyView()
+                Text("Open Camera")
+                    .padding()
+                    .foregroundStyle(.white)
+                    .background(Color.gray.opacity(0.5))
+                    .clipShape(Capsule())
             }
 
-            
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .edgesIgnoringSafeArea(.all)
@@ -48,6 +34,7 @@ struct ContentView: View {
     
     func capturedImageHandler(_ image: UIImage?) {
         capturedImage = image
+        
     }
     
 }

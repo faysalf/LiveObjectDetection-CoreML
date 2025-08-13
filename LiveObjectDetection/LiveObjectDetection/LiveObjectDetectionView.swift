@@ -6,34 +6,30 @@
 //
 
 import SwiftUI
+import Vision
 
 struct LiveObjectDetectionView: View {
     @State private var showCamera = false
+    let camera = CustomCameraUIView()
     
     var body: some View {
         ZStack {
-            if showCamera {
-                CustomCameraPreview()
-                    .transition(.opacity.combined(with: .scale))
-                    .animation(.easeInOut(duration: 0.5), value: showCamera)
-                
-            } else {
-                VStack {
-                    Text("Tap to open camera")
-                        .font(.headline)
-                        .padding()
-                    Button("Open Camera") {
-                        withAnimation {
-                            showCamera = true
-                        }
-                    }
-                    .padding()
-                    .background(.blue)
-                    .foregroundColor(.white)
-                    .clipShape(Capsule())
+            CustomCameraPreview(cameraView: camera, capturedPixels: capturedPixelsHandler)
+                .onAppear {
+                    camera.startSession()
                 }
-            }
+                .onDisappear {
+                    camera.stopSession()
+                }
         }
+        .edgesIgnoringSafeArea(.all)
+        
+    }
+    
+    private func capturedPixelsHandler(pixels: CVPixelBuffer) {
+        debugPrint("Captured Pixels: ", pixels.hashValue.words.count)
+        
+        
     }
 }
 
