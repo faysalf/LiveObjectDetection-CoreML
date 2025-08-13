@@ -79,8 +79,8 @@ final class CustomCameraViewController: UIViewController {
     
     @IBAction
     private func backAction(_ sender: UIButton) {
-        navigationController?.popViewController(animated: true)
-        //capturePhoto()
+        //navigationController?.popViewController(animated: true)
+        capturePhoto()
     }
     
     func capturePhoto() {
@@ -115,13 +115,13 @@ extension CustomCameraViewController: AVCapturePhotoCaptureDelegate {
             return
         }
         
-        PHPhotoLibrary.requestAuthorization { status in
-            if status == .authorized {
-                PHPhotoLibrary.shared().performChanges {
-                    PHAssetChangeRequest.creationRequestForAsset(from: image)
-                }
-            }
-        }
+//        PHPhotoLibrary.requestAuthorization { status in
+//            if status == .authorized {
+//                PHPhotoLibrary.shared().performChanges {
+//                    PHAssetChangeRequest.creationRequestForAsset(from: image)
+//                }
+//            }
+//        }
         
         onCapturedImage?(image)
     }

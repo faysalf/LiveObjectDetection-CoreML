@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var showCamera = false
+    @State private var presentDetectionView = false
     @State private var capturedImage: UIImage?
     
     var body: some View {
@@ -25,30 +25,25 @@ struct ContentView: View {
                     .overlay(Text("No photo yet"))
             }
             
-            NavigationLink("Open Camera") {
-                CustomCameraView(onCapture: capturedImageHandler)
-                
+            Button("Open Camera") {
+                presentDetectionView = true
             }
+            .buttonStyle(.bordered)
+            
+            NavigationLink(isActive: $presentDetectionView) {
+                LiveObjectDetectionView()
+                
+            } label: {
+                EmptyView()
+            }
+
             
         }
-        .frame(maxHeight: .infinity)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .edgesIgnoringSafeArea(.all)
         .colorScheme(.light)
         .background(Color.white)
-        .padding(.vertical).background(Color.white)
         
-    }
-    
-    // Helper: search view controller tree for CameraViewController
-    private func findCameraController(in vc: UIViewController) -> CustomCameraViewController? {
-        if let c = vc as? CustomCameraViewController { return c }
-        for child in vc.children {
-            if let found = findCameraController(in: child) { return found }
-        }
-        if let presented = vc.presentedViewController {
-            if let found = findCameraController(in: presented) { return found }
-        }
-        return nil
     }
     
     func capturedImageHandler(_ image: UIImage?) {
