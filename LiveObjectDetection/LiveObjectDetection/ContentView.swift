@@ -17,7 +17,7 @@ struct ContentView: View {
                 LiveObjectDetectionView()
                 
             } label: {
-                Text("Open Camera")
+                Text("Start Detection")
                     .padding()
                     .foregroundStyle(.white)
                     .background(Color.gray.opacity(0.5))

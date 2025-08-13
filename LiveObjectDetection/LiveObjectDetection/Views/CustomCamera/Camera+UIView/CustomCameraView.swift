@@ -35,7 +35,7 @@ class CustomCameraUIView: UIView {
     
     private func configure() {
         session = AVCaptureSession()
-        session.sessionPreset = .medium
+        session.sessionPreset = .high
         
         guard let device = AVCaptureDevice.default(for: .video),
               let input = try? AVCaptureDeviceInput(device: device),
@@ -49,6 +49,13 @@ class CustomCameraUIView: UIView {
             session.addOutput(videoOutput)
         }
         
+        // Ensuring pixel buffer is in right orientation
+        if let connection = videoOutput.connection(with: .video) {
+            if connection.isVideoOrientationSupported {
+                connection.videoOrientation = .portrait
+            }
+        }
+        
         previewLayer = AVCaptureVideoPreviewLayer(session: session)
         previewLayer.videoGravity = .resizeAspectFill
         layer.addSublayer(previewLayer)
@@ -57,7 +64,7 @@ class CustomCameraUIView: UIView {
     
 }
 
-// MARK: - Photo Output Delegate
+// MARK: - Video pixel buffer Delegate
 extension CustomCameraUIView: AVCaptureVideoDataOutputSampleBufferDelegate {
     
     func captureOutput(

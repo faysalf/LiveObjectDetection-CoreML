@@ -25,14 +25,13 @@ struct LiveObjectDetectionView: View {
                 .overlay(overlayingView)
             
         }
-        .edgesIgnoringSafeArea(.all)
         
     }
     
     var overlayingView: some View {
         GeometryReader { geometry in
-            Path { path in
-                for object in self.detectedObjects {
+            ZStack {
+                ForEach(detectedObjects, id: \.id) { object in
                     let vnRect = VNImageRectForNormalizedRect(
                         object.area,
                         Int(geometry.size.width),
@@ -44,13 +43,27 @@ struct LiveObjectDetectionView: View {
                         width: vnRect.width,
                         height: vnRect.height
                     )
-                    path.addRect(cgrect)
+                    
+                    Path { path in
+                        path.addRect(cgrect)
+                    }
+                    .stroke(.red, lineWidth: 3.0)
+                    
+                    Text(object.objName)
+                        .font(.caption)
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 10)
+                        .frame(height: 16)
+                        .background(Color.black.opacity(0.6))
+                        .position(
+                            x: cgrect.midX,
+                            y: cgrect.minY - 16
+                        )
                 }
             }
-            .stroke(.red, lineWidth: 3.0)
         }
     }
-    
+
     private func capturedPixelsHandler(pixelBuffers: CVPixelBuffer) {
         debugPrint("Captured Pixels at \(Date())")
         
@@ -80,6 +93,7 @@ struct LiveObjectDetectionView: View {
         }
         
     }
+    
 }
 
 #Preview {
