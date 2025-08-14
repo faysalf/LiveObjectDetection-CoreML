@@ -14,6 +14,8 @@ class CustomCameraUIView: UIView {
     private var session: AVCaptureSession!
     private var videoOutput: AVCaptureVideoDataOutput!
     private var previewLayer: AVCaptureVideoPreviewLayer!
+    private var lastFrameTime: CFAbsoluteTime = 0
+    private var timeInterval: CFAbsoluteTime = 0.3
     
     override
     init(frame: CGRect) {
@@ -72,13 +74,12 @@ extension CustomCameraUIView: AVCaptureVideoDataOutputSampleBufferDelegate {
         didOutput sampleBuffer: CMSampleBuffer,
         from connection: AVCaptureConnection
     ) {
-        guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
-            return
-        }
-        
-        DispatchQueue.global().async {
-            debugPrint("Pixel gets at \(Date())")
+        let now = CFAbsoluteTimeGetCurrent()
+        if now - lastFrameTime >= timeInterval,
+           let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) { //pass pixels after a specific preriod
+            lastFrameTime = now
             self.capturedPixels?(pixelBuffer)
+
         }
         
     }
@@ -87,7 +88,6 @@ extension CustomCameraUIView: AVCaptureVideoDataOutputSampleBufferDelegate {
 
 // MARK: - Methods
 extension CustomCameraUIView {
-    
     func startSession() {
         DispatchQueue.global(qos: .userInitiated).async {
             self.session.startRunning()
