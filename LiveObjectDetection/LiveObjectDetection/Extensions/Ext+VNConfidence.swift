@@ -10,6 +10,6 @@ import Vision
 
 extension VNConfidence {
     var perchentage: String {
-        String(format: "%d%%", Int(self * 100))
+        String(format: "%d%%", min(99, Int(self * 100)))
     }
 }

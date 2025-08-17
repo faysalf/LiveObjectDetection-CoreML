@@ -58,7 +58,7 @@ struct LiveObjectDetectionView: View {
                         .background(Color.black.opacity(0.6))
                         .position(
                             x: cgrect.midX,
-                            y: cgrect.minY - 16
+                            y: cgrect.minY - 10
                         )
                 }
             }
